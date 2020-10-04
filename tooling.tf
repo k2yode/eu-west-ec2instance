@@ -33,6 +33,8 @@ resource "aws_instance" "instance_x" {
   #instance type
   instance_type = "t2.micro"
 
+  user_data = "${file ("script.tpl")}"
+
   #instance tags
   tags = {
     Name = "eu-west-ToolingServer-${count.index + 1}"
