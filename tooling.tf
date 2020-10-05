@@ -7,6 +7,10 @@ provider "aws" {
   region  = "eu-west-2"
   }
 
+
+################################
+# Template user_data
+################################
   data "template_file" "myuserdata" {
   template = "${file("${path.cwd}/userdata.tpl")}"
   }
