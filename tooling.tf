@@ -41,7 +41,7 @@ resource "aws_instance" "instance_x" {
   #instance type
   instance_type = "t2.micro"
 
-  user_data = "${data.template_file.myuserdata.template}"
+  user_data = data.template_file.myuserdata.template
   #user_data = "${file("script.tpl")}"
   # https://www.lennu.net/terraform-interpolation-only-expressions-are-deprecated/
   #user_data = "${file("script.sh")}"
