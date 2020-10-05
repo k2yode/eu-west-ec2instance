@@ -12,7 +12,7 @@ provider "aws" {
 # Template user_data
 ################################
   data "template_file" "myuserdata" {
-  template = "${file("${path.cwd}/userdata.tpl")}"
+  template = "${file("${path.cwd}/script.tpl")}"
   }
 
 ################################
@@ -41,10 +41,8 @@ resource "aws_instance" "instance_x" {
   #instance type
   instance_type = "t2.micro"
 
-  user_data = data.template_file.myuserdata.template
-  #user_data = "${file("script.tpl")}"
-  # https://www.lennu.net/terraform-interpolation-only-expressions-are-deprecated/
-  #user_data = "${file("script.sh")}"
+  user_data = "data.template_file.myuserdata.template"
+ 
 
     #instance tags
   tags = {
