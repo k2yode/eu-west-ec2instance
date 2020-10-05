@@ -5,7 +5,11 @@
 provider "aws" {
   profile = "default"
   region  = "eu-west-2"
-}
+  }
+
+  data "template_file" "myuserdata" {
+  template = "${file("${path.cwd}/userdata.tpl")}"
+  }
 
 ################################
 #S3 Bucket to store tfstate file
@@ -33,11 +37,12 @@ resource "aws_instance" "instance_x" {
   #instance type
   instance_type = "t2.micro"
 
+  user_data = "${data.template_file.myuserdata.template}"
   #user_data = "${file("script.tpl")}"
   # https://www.lennu.net/terraform-interpolation-only-expressions-are-deprecated/
-  user_data = "script.tpl"
+  #user_data = "${file("script.sh")}"
 
-  #instance tags
+    #instance tags
   tags = {
     Name = "eu-west-Tooling-Server-${count.index + 1}"
       }
