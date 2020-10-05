@@ -33,11 +33,13 @@ resource "aws_instance" "instance_x" {
   #instance type
   instance_type = "t2.micro"
 
-  user_data = "${file ("script.tpl")}"
+  #user_data = "${file("script.tpl")}"
+  # https://www.lennu.net/terraform-interpolation-only-expressions-are-deprecated/
+  user_data = "script.tpl"
 
   #instance tags
   tags = {
-    Name = "eu-west-ToolingServer-${count.index + 1}"
+    Name = "eu-west-Tooling-Server-${count.index + 1}"
       }
 
   #create security group
