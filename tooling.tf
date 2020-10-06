@@ -5,15 +5,15 @@
 provider "aws" {
   profile = "default"
   region  = "eu-west-2"
-  }
+}
 
 
 ################################
 # Template user_data
 ################################
-  data "template_file" "myuserdata" {
-  template = "${file("${path.cwd}/script.tpl")}"
-  }
+data "template_file" "myuserdata" {
+  template = "${file("${path.cwd}/userdata.tpl")}"
+}
 
 ################################
 #S3 Bucket to store tfstate file
@@ -33,7 +33,7 @@ terraform {
 resource "aws_instance" "instance_x" {
 
   #Copy AMI Image
-  ami   = "ami-002c706045586bd94"
+  ami = "ami-002c706045586bd94"
 
   #Total instance to create
   count = 1
@@ -41,17 +41,17 @@ resource "aws_instance" "instance_x" {
   #instance type
   instance_type = "t2.micro"
 
-  user_data = "data.template_file.myuserdata.template"
- 
+  user_data = data.template_file.myuserdata.template
 
-    #instance tags
+
+  #instance tags
   tags = {
     Name = "eu-west-Tooling-Server-${count.index + 1}"
-      }
+  }
 
   #create security group
   vpc_security_group_ids = ["${aws_security_group.eu-west-sec-sg.id}"]
-  
-   #keyname
+
+  #keyname
   key_name = "LDN_key"
 }
